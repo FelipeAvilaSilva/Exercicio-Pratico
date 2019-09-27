@@ -8,63 +8,52 @@ Os valores estão intercalados na seguinte ordem: int, float, double.
 A variável nTotal indica o total de trios (int, float e double) no buffer.*/
 
 void imprimeBuffer(void *pBuffer, unsigned int nTotal){
-int *aux;
-float *aux2;
-double *aux3;
-srand(time(NULL));
+    int *aux, prox = 0;
+    float *aux2;
+    double *aux3;
+    srand(time(NULL));
 
- for(int i=0; i<nTotal; i++){
-int a =0;
-    aux = (int*)pBuffer;
-    printf("int:%d\n", *aux);
+        for(int i=0; i<nTotal; i++){
 
-    aux2 = (float*)pBuffer + 1;
-    printf("float:%f\n", *aux2);
+            aux = (int*)pBuffer + prox;
+            printf("int:%d\n", *aux);
 
-    aux3 = (double*) aux2 + 1;
-    printf("double:%lf\n", *aux3);
+            aux2 = (float*)aux + 1;
+            printf("float:%f\n", *aux2);
 
-    printf("\n\n");
+            aux3 = (double*) aux2 + 1;
+            printf("double:%lf\n", *aux3);
 
-    //if(a>0){
-    pBuffer = pBuffer + sizeof(int) + sizeof(float) + sizeof(double);
-    //} a++;
- }
+            prox = prox + nTotal + 1;
+
+            printf("\n\n");
+        }
 }
-
 
 int main(){
 
-int nTotal;
-void *pBuffer;
-int *a;
-float *b;
-double *c;
+    int nTotal;
+    void *pBuffer;
+    int *a, prox = 0;
+    float *b;
+    double *c;
 
-printf("Digite o valor de nTotal:\n");
-scanf("%d", &nTotal);
+    printf("Digite o valor de nTotal:\n");
+    scanf("%d", &nTotal);
 
-pBuffer = realloc(NULL, sizeof(int)) + (sizeof(float)) + (sizeof(double));
+    pBuffer = realloc(NULL, sizeof(int)) + (sizeof(float)) + (sizeof(double));
 
-for(int i=0; i<nTotal; i++){
+    for(int i=0; i<nTotal; i++){
+        a = (int*)pBuffer + prox;
+        *a = rand()%10;
 
-    a = (int*)pBuffer;
-    *a = rand()%99;
+        b = (float*)a + 1;
+        *b = rand()%10*10;
 
-    b = (float*)a + 1;
-    *b = rand()%99;
+        c = (double*)b + 1;
+        *c = rand()%10*20;
 
-    c = (double*)b + 1;
-    *c = rand()%99;
-
-   // pBuffer = pBuffer + sizeof(int) + sizeof(float) + sizeof(double);
-   pBuffer = pBuffer + (sizeof(int) + sizeof(float) + sizeof(double));
-
-}
-
-imprimeBuffer(pBuffer, nTotal);
-
-
-
-return 0;
+        prox = prox + nTotal + 1;
+    }
+    imprimeBuffer(pBuffer, nTotal);
 }
